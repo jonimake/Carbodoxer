@@ -88,7 +88,7 @@
       total += myroute.legs[i].distance.value;
     }
     total = total / 1000 * 0.18;
-    document.getElementById("total").innerHTML = "Expected " + total + " kg CO2";
+    document.getElementById("total").innerHTML = "Expected: " + total + " kg CO2";
   }
 </script>
 </head>
@@ -98,14 +98,16 @@
 		From: <input type="text" name="address1">
 		To: <input type="text" name="address2">
 		<input type="submit" value="Submit">
+		<button id="undo" style="display:inline;margin:auto" onclick="undo()">Undo</button>
+		<b id="total" />
 	</form></center>
 	</div>
-	<div id="map_canvas" style="float:left;width:70%;height:90%"></div>
-	<div style="float:right;width:30%;height:100%;overflow:auto">
-		<center><h1 id="total"></h1></center>
+	<div id="foo" style="float:left;width:20%;height:90%"></div>
+	<div id="map_canvas" style="float:left;width:60%;height:90%"></div>
+	<!-- div style="float:right;width:30%;height:100%;overflow:auto">
 		<button id="undo" style="display:block;margin:auto" onclick="undo()">Undo
 		</button>
 		<div id="directions_panel" style="width:100%"></div>
-	</div>
+	</div -->
 </body>
 </html>
