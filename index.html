@@ -40,19 +40,27 @@
   }
 
   function calcRoute() {
-    var start = document.addressInput.address1.value;
-    var end = document.addressInput.address2.value;
-	console.log("Start address: " + start);
-	console.log("End address: " + end);
+	var form = document.getElementById("address");
+    //var start = "alempi talonpojantie 4";
+    //var end = "kumpulan kampus";
+	var start = form[0].value;
+	var end = form[1].value;
+	//console.log("Start address: " + start);
+	//console.log("End address: " + end);
     var request = {
         origin:start,
         destination:end,
         travelMode: google.maps.DirectionsTravelMode.DRIVING
     };
+	console.log(request);
     directionsService.route(request, function(response, status) {
       if (status == google.maps.DirectionsStatus.OK) {
+		console.log("DirectionStatus: "+status);
         directionsDisplay.setDirections(response);
       }
+	  else {
+		console.log("DirectionStatus: "+ status);
+		}
     });
   }
 
@@ -71,7 +79,7 @@
 </head>
 <body onload="initialize()">
 	<div id="top" style="float:left;width:100%;height:10%">
-	<form name="addressInput" onsubmit="return calcRoute()" method="post">
+	<form id="address" action="javascript:void(0);" name="addressInput" onsubmit="calcRoute();" method="post">
 		Address 1: <input type="text" name="address1"></br>
 		Address 2: <input type="text" name="address2"><br/>
 		<input type="submit" value="Submit">
