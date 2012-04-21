@@ -1,7 +1,8 @@
 <html>
 <head>
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-	<title>Cardoboxer</title>
+	<title>Carbodoxer</title>
+	<link rel="stylesheet" type="text/css" href="index.css" />
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 	<script type="text/javascript">
   var directionsDisplay;
@@ -33,6 +34,10 @@
         }
         currentDirections = directionsDisplay.getDirections();
       });
+
+	google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
+	    computeTotalDistance(directionsDisplay.directions);
+	  });
 
     setUndoDisabled(true);
 
@@ -75,18 +80,29 @@
   function setUndoDisabled(value) {
     document.getElementById("undo").disabled = value;
   }
+
+  function computeTotalDistance(result) {
+    var total = 0;
+    var myroute = result.routes[0];
+    for (i = 0; i < myroute.legs.length; i++) {
+      total += myroute.legs[i].distance.value;
+    }
+    total = total / 1000 * 0.18;
+    document.getElementById("total").innerHTML = "Expected " + total + " kg CO2";
+  }
 </script>
 </head>
 <body onload="initialize()">
-	<div id="top" style="float:left;width:100%;height:10%">
-	<form id="address" action="javascript:void(0);" name="addressInput" onsubmit="calcRoute();" method="post">
-		Address 1: <input type="text" name="address1"></br>
-		Address 2: <input type="text" name="address2"><br/>
+	<div id="top" style="float:left;width:100%;height:5%">
+	<center><form id="address" action="javascript:void(0);" name="addressInput" onsubmit="calcRoute();" method="post">
+		From: <input type="text" name="address1">
+		To: <input type="text" name="address2">
 		<input type="submit" value="Submit">
-	</form>
+	</form></center>
 	</div>
 	<div id="map_canvas" style="float:left;width:70%;height:90%"></div>
 	<div style="float:right;width:30%;height:100%;overflow:auto">
+		<center><h1 id="total"></h1></center>
 		<button id="undo" style="display:block;margin:auto" onclick="undo()">Undo
 		</button>
 		<div id="directions_panel" style="width:100%"></div>
